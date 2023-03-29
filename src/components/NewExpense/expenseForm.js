@@ -4,7 +4,7 @@ const ExpenseForm = (props) => {
 const [ enteredTitle, setEnteredTitle] =useState('');
 const [ enteredAmount, setEnteredAmount] =useState('');
 const [ enteredDate, setEnteredDate] =useState('');
-
+const [submit, setSubmit]= useState(false);
 const [userInput,setUserInput] = useState({
     enteredTitle:'',
     enteredDate:'',
@@ -45,9 +45,19 @@ props.onSavingExpenseData(expenseData)
 setEnteredTitle('')
 setEnteredAmount('')
 setEnteredDate('')
+enteredAmount  && setSubmit(false)
 
 }
-    return (<form onSubmit={submitHandler}>
+const handleSubmit =()=>{
+    setSubmit(true)
+}
+const handleCancel =()=>{
+    setSubmit(false)
+}
+let conditionalSubmit = (<div className="new-expense_actions"><button  onClick={handleSubmit} type="submit">Add Expense</button>
+</div>)
+if(submit == true){
+    conditionalSubmit = <form onSubmit={submitHandler}>
         <div className="new-expense__controls">
             <div className="new-expense__control">
                 <label>Title</label>
@@ -63,10 +73,12 @@ setEnteredDate('')
             </div>
         </div>
         <div className="new-expense_actions">
+            <button type="button" onClick={handleCancel}> Cancel</button>
             <button type="submit">Add Expense</button>
-
         </div>
-    </form>)
+    </form>
+}
+    return conditionalSubmit
 
 
 }
